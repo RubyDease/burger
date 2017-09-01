@@ -1,33 +1,35 @@
 var connection = require('../config/connection.js');
 
+
 function printQuestionMarks(num) {
     var arr = [];
 
     for (var i = 0; i < num; i++) {
-        arr.push('?')
+        arr.push("?")
     }
 
     return arr.toString();
 }
-
+// helper function fdor sql syntax.
 function objToSql(ob) {
-    //column1=value, column2=value2,...
     var arr = [];
 
     for (var key in ob) {
-        arr.push(key + '=' + ob[key]);
+        if (Object.hasOwnProperty.call(ob, key))
+            arr.push(key + '=' + ob[key]);
     }
-
-    return arr.toString();
 }
-
+return arr.toString();
+}
+// Object for all our SQL statement functions
 var orm = {
-    all: function(tableInput, cb) {
-        var queryString = 'SELECT * FROM ' + tableInput + ';';
-        connection.query(queryString, function(err, result) {
-            if (err) throw err;
-            cb(result);
-        });
+        all: function(tableInput, cb) {
+            var queryString = 'SELECT * FROM ' + tableInput + ";";
+            connection.query(queryString, function(err, result) {
+                    if (err) throw err;
+                }
+                cb(result);
+            });
     },
     //vals is an array of values that we want to save to cols
     //cols are the columns we want to insert the values into
@@ -41,8 +43,12 @@ var orm = {
         queryString = queryString + printQuestionMarks(vals.length);
         queryString = queryString + ') ';
 
+        console.log(queryString);
+
         connection.query(queryString, vals, function(err, result) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             cb(result);
         });
     },
@@ -58,10 +64,27 @@ var orm = {
 
         console.log(queryString)
         connection.query(queryString, function(err, result) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
+
+            cb(result);
+        });
+    },
+    delete: function(table, condition, cb) {
+        var queryString = "DELETE FROM " + table;
+        queryString += " WHERE ";
+        queryString += condition;
+
+        connection.query(queryString, function(err, result) {
+            if (err) {
+                throw err;
+            }
+
             cb(result);
         });
     }
 };
+// Export the orm object for the model (burger.js).
 
 module.exports = orm;
