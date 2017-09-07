@@ -25,7 +25,7 @@ router.get('/index', function(req, res) {
 // redirects back to the /index route
 router.post('/burger/create', function(req, res) {
 	burger.create(['burger_name', 'devoured'], [req.body.name, false], function() {
-		res.redirect('/burger');
+		res.redirect('/index');
 	});
 });
 
@@ -37,7 +37,7 @@ router.put('/:id', function(req, res) {
 	console.log('condition', condition);
 
 	burger.update({devoured: req.body.devoured}, condition, function() {
-		res.redirect('/burger');
+		res.redirect('/index');
 	});
 });
 
