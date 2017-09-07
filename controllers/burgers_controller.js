@@ -25,7 +25,7 @@ router.get('/index', function(req, res) {
 // redirects back to the /index route
 router.post('/burger/create', function(req, res) {
 	burger.create(['burger_name', 'devoured'], [req.body.name, false], function() {
-		res.redirect('/burgre');
+		res.redirect('/burger');
 	});
 });
 
