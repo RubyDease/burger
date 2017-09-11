@@ -25,19 +25,19 @@ router.get('/index', function(req, res) {
 // redirects back to the /index route
 router.post('/burger/create', function(req, res) {
 	burger.create(['burger_name', 'devoured'], [req.body.name, false], function() {
-		res.redirect('/index');
+		res.redirect('/');
 	});
 });
 
-// add a '/burgers/update/:id' route that updates
+// add a 'burger/update/:id' route that updates
 // the status of the burger from being uneaten to eaten
 // then does a callback that redirects to the /index endpoint
-router.put('/:id', function(req, res) {
+router.put('burger/update/:id', function(req, res) {
 	var condition = 'id = ' + req.params.id;
 	console.log('condition', condition);
 
 	burger.update({devoured: req.body.devoured}, condition, function() {
-		res.redirect('/index');
+		res.redirect('/');
 	});
 });
 
